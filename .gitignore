@@ -1,0 +1,6 @@
+node_modules
+.env
+.idea
+
+quickstart/backend/login-states/**/*
+!quickstart/backend/login-states/.gitkeep
