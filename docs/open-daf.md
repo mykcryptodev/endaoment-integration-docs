@@ -199,9 +199,7 @@ If you choose to do so, you can display the details of the newly created DAF to 
 </main>
 ```
 
-The full reference of the fields that are returned in the response can be found in the [API Reference](../api-reference.md).
-
-> TODO: Add link to API Reference
+The full reference of the fields that are returned in the response can be found in the [API Reference](https://api.dev.endaoment.org/oas#/Funds/FundsController_processFund).
 
 ## Conclusion
 
