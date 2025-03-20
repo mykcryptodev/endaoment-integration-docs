@@ -124,6 +124,8 @@ async function getDafs(req, res) {
 
 You can now call this route from your frontend to retrieve the list of DAFs available to the user. This example uses React, but you can use any frontend framework or vanilla JavaScript.
 
+For more details about the `https://api.endaoment.com/v1/funds/mine` API being called, check the [API  docs](https://api.dev.endaoment.org/oas#/Funds/FundsController_getMyFunds)
+
 ```javascript
 const DafList = () => {
   const [dafs, setDafs] = useState([]);
@@ -185,6 +187,10 @@ async function getWireInstructions(req, res) {
 }
 ```
 
+You can find the API  for those endpoints here:
+- [Domestic Wire Details API](https://api.dev.endaoment.org/oas#/Donation%20Pledges/DonationPledgesController_getDomesticPledgeDetails)
+- [International Wire Details API](https://api.dev.endaoment.org/oas#/Donation%20Pledges/DonationPledgesController_getInternationalPledgeDetails)
+
 You can now call this route from your frontend to retrieve the wire instructions when a user decides to donate to a DAF.
 
 > Remember that the wire instructions can change, so it is recommended to fetch the wire instructions each time a user decides to donate.
@@ -244,7 +250,7 @@ async function wireDonation(req, res) {
 
   // Make a request to the Endaoment API to create the donation request
   const donationRequest = await fetch(
-    'https://api.endaoment.com/v1/donation-pledges/wire-pledge',
+    'https://api.endaoment.com/v1/donation-pledges/wire',
     {
       method: 'POST',
       headers: {
@@ -281,9 +287,7 @@ The request to the Endaoment API will require the following fields:
 }
 ```
 
-While there are other fields that can be included in the donation form, these are the minimum required fields to create a donation request. You can learn more about the donation fields in the [API Reference](../api-reference.md).
-
-> TODO: Add link to API Reference
+While there are other fields that can be included in the donation form, these are the minimum required fields to create a donation request. You can learn more about the donation fields in the [API Reference docs.](https://api.dev.endaoment.org/oas#/Donation%20Pledges/DonationPledgesController_createWirePledge)
 
 With the donation request sent to the Endaoment API, the donation will be processed and the user will receive a response containing the id of the donation pledge. It will be similar to the following:
 
