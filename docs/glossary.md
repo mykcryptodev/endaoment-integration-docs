@@ -55,3 +55,23 @@ A JavaScript function that provides an interface for fetching resources (includi
 An interface used to work with the query string of a URL.
 
 [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)
+
+### Custodial Cash Donation
+
+A donation type where the donor sends cash to Endaoment for investment in a Donor-Advised Fund (DAF).
+This is a pull-based transfer where Endaoment initiates the request to pull funds from the donor's brokerage account.
+
+### Wire Cash Donation
+
+A donation type where the donor sends cash to Endaoment for investment in a Donor-Advised Fund (DAF).
+This functions by a donor initiating a wire transfer from their bank account to Endaoment's bank account after receiving account details.
+
+### Stock Donation
+
+A donation type where the donor sends stock to Endaoment for investment in a Donor-Advised Fund (DAF).
+This works by a donor initiating a transfer of stock from their brokerage account to Endaoment's brokerage account.
+
+### Crypto Donation
+
+A donation type where the donor sends cryptocurrency to Endaoment for investment in a Donor-Advised Fund (DAF).
+This works by a donor initiating a transfer of cryptocurrency from their wallet to Endaoment's wallet and informing Endaoment of the transaction hash which resulted in a transfer of funds.
