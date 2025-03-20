@@ -52,10 +52,10 @@ Your UI must send a request to your backend service to initiate the login proces
 
 ```js
 // Send a request to your backend service to initiate the login process
-const res = await fetch("/init-login", {
-  method: "POST",
+const res = await fetch('/init-login', {
+  method: 'POST',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -70,25 +70,25 @@ window.location.href = res.url;
 Once your frontend has initiated the login process, your backend service must create a verification request for the user. This will require generating a `codeVerifier`, `codeChallenge`, and `state`.
 
 ```js
-const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 // Ensure URL safe encoding
 function toUrlSafe(base64) {
-  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
 
 function generateCodeVerifier() {
   const randomBytes = crypto.randomBytes(32);
   crypto.getRandomValues(randomBytes);
-  return toUrlSafe(Buffer.from(randomBytes).toString("base64"));
+  return toUrlSafe(Buffer.from(randomBytes).toString('base64'));
 }
 
 async function generateCodeChallenge(codeVerifier) {
-  const hash = crypto.createHash("sha256");
+  const hash = crypto.createHash('sha256');
   hash.update(codeVerifier);
-  return toUrlSafe(hash.digest("base64"));
+  return toUrlSafe(hash.digest('base64'));
 }
 
 function saveOAuthState({ codeVerifier, codeChallenge, state }) {
@@ -103,8 +103,8 @@ function saveOAuthState({ codeVerifier, codeChallenge, state }) {
         state,
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 }
 
@@ -115,7 +115,7 @@ async function initLogin(req, res) {
 
   // The state is a random string that is used to uniquely identify the login request
   // It can be whatever you want, but it should, ideally, be unique for each login
-  const state = crypto.randomBytes(16).toString("hex");
+  const state = crypto.randomBytes(16).toString('hex');
 
   // It is important to store these values so that they can be accessed later to verify the login
   saveOAuthState({
@@ -142,29 +142,31 @@ async function initLogin(req, res) {
   // Prepare the URL to redirect the user to the Endaoment OAuth page
 
   // The Endaoment endpoint
-  const staticUrl = "https://auth.endaoment.org/auth";
+  const staticUrl = 'https://auth.endaoment.org/auth';
 
   // Replace this value with your own
   // It is used to validate that the call for token has the same redirectUrl as the call that initiates auth
-  const redirectUri = "https://your-redirect-uri.com";
+  const redirectUri = 'https://your-redirect-uri.com';
 
   // We must prepare the proper OpenID Connect parameters
   const urlParams = new URLSearchParams();
-  urlParams.append("response_type", "code");
-  urlParams.append("prompt", "login");
+  urlParams.append('response_type', 'code');
+  urlParams.append('prompt', 'login');
   urlParams.append(
-    "scope",
-    "openid offline_access accounts transactions profile",
+    'scope',
+    'openid offline_access accounts transactions profile'
   );
-  urlParams.append("client_id", process.env.ENDAOMENT_CLIENT_ID);
-  urlParams.append("redirect_uri", redirectUri);
-  urlParams.append("code_challenge", codeChallenge);
-  urlParams.append("code_challenge_method", "S256");
-  urlParams.append("state", state);
+  urlParams.append('client_id', process.env.ENDAOMENT_CLIENT_ID);
+  urlParams.append('redirect_uri', redirectUri);
+  urlParams.append('code_challenge', codeChallenge);
+  urlParams.append('code_challenge_method', 'S256');
+  urlParams.append('state', state);
 
   // Send the url back to your frontend so that the user can be redirected
   // Ex: https://auth.endaoment.org/auth?response_type=code&prompt=login&scope=openid%20offline_access%20accounts%20transactions%20profile&client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&code_challenge=BeUrd7mc_E6ayQ_Y0c1RLIYpWYAy4w2s9ug_q7lHN3M&code_challenge_method=S256&state=6923e531f1b4c2b50c1d5014f6b29e3b
-  const urlToRedirect = `${staticUrl}?${urlParams.toString().replace(/\+/g, "%20")}`;
+  const urlToRedirect = `${staticUrl}?${urlParams
+    .toString()
+    .replace(/\+/g, '%20')}`;
   res.json({ url: urlToRedirect });
   res.end();
 }
@@ -177,8 +179,8 @@ The URL that you have generated will be sent to the frontend whenever the user i
 Once the user has logged in and been redirected back to your `redirectUri`, you must verify the login. This will require verifying the `state` and `code` and exchanging the `code` for an authentication token.
 
 ```js
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
 function getOAuthState(stateFromUrl) {
   // Load the exported variables from the file, session, or database
@@ -188,16 +190,16 @@ function getOAuthState(stateFromUrl) {
     // You should handle this case by returning an error
     fs.readFileSync(
       path.join(__dirname, `${stateFromUrl}-exportedVariables.json`),
-      "utf8",
-    ),
+      'utf8'
+    )
   );
 }
 
 // This is the part that should be called by your `verify-login` route handler
 async function verifyLogin(req) {
   // Get the state and code from the URL
-  const stateFromUrl = req.params["state"];
-  const code = req.params["code"];
+  const stateFromUrl = req.params['state'];
+  const code = req.params['code'];
 
   // Get the exported variables that were stored when the login was initiated
   const exportedVariables = getOAuthState(stateFromUrl);
@@ -205,26 +207,28 @@ async function verifyLogin(req) {
   // Prepare the URL to exchange the code for an authentication token
 
   // The Endaoment endpoint
-  const staticUrl = "https://auth.endaoment.org/token";
+  const staticUrl = 'https://auth.endaoment.org/token';
 
   // Replace this value with your own
   // It is used to validate that the call for token has the same redirectUrl as the call that initiates auth
   // This should match the redirectUri used in the previous step
-  const redirectUri = "https://your-redirect-uri.com";
+  const redirectUri = 'https://your-redirect-uri.com';
 
   // Prepare form data using URLSearchParams
   const formData = new URLSearchParams();
-  formData.append("grant_type", "authorization_code");
-  formData.append("code", code);
-  formData.append("code_verifier", exportedVariables.codeVerifier);
-  formData.append("redirect_uri", redirectUri);
+  formData.append('grant_type', 'authorization_code');
+  formData.append('code', code);
+  formData.append('code_verifier', exportedVariables.codeVerifier);
+  formData.append('redirect_uri', redirectUri);
 
   // Send the request to the Endaoment OAuth token endpoint
   const tokenResponse = await fetch(staticUrl, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${Buffer.from(`${process.env.ENDAOMENT_CLIENT_ID}:${process.env.ENDAOMENT_CLIENT_SECRET}`).toString("base64")}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${Buffer.from(
+        `${process.env.ENDAOMENT_CLIENT_ID}:${process.env.ENDAOMENT_CLIENT_SECRET}`
+      ).toString('base64')}`,
     },
     body: formData,
   });
@@ -270,4 +274,6 @@ You have successfully logged in a user and can now make authenticated requests t
 ## Next Steps
 
 With the user logged in, your app is now open to performing a host of new actions on their account.
-You should now consider implementing the [opening a new DAF flow](./open-daf.md)
+You should now consider implementing the [opening a new DAF flow](./open-daf.md).
+
+> If you would like to skip ahead, you can use the tool provided [here](https://app.dev.endaoment.org/dev/token) to generate a development JWT token. Remember that this functionality is only available in development and should be replaced with your own OAuth server in production.
