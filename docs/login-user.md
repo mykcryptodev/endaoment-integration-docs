@@ -198,8 +198,8 @@ function getOAuthState(stateFromUrl) {
 // This is the part that should be called by your `verify-login` route handler
 async function verifyLogin(req) {
   // Get the state and code from the URL
-  const stateFromUrl = req.params['state'];
-  const code = req.params['code'];
+  const stateFromUrl = req.query['state'];
+  const code = req.query['code'];
 
   // Get the exported variables that were stored when the login was initiated
   const exportedVariables = getOAuthState(stateFromUrl);

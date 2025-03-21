@@ -22,3 +22,29 @@ export type OrgListing = {
   donationsReceived: number;
   grantsReceived: number;
 };
+
+export type Daf = {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  logo: string;
+  usdcBalance: string;
+  inTransitBuyUsdcAmount: string;
+  inTransitSellUsdcAmount: string;
+  processingTransfersTotalUsdc: string;
+};
+
+export type WireInstructions = {
+  beneficiary: {
+    name: string;
+    accountNumber: string;
+    typeOfAccount: string;
+    address: string;
+  };
+  receivingBank: {
+    abaRoutingNumber: string;
+    name: string;
+    address: string;
+  };
+};

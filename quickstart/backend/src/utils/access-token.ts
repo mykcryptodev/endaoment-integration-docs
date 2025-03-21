@@ -1,11 +1,11 @@
-import { Request } from "express";
+import { Request } from 'express';
 
-export const ACCESS_TOKEN_NAME = "ndao_token";
+export const ACCESS_TOKEN_NAME = 'ndao_token';
 
-export const getAccessToken = (req: Request) => {
-  const token = req.cookies[ACCESS_TOKEN_NAME];
+export const getAccessToken = (req: Request): string => {
+  const tokenCookie = req.cookies[ACCESS_TOKEN_NAME];
 
-  if (!token) throw new Error("No access token found in cookies");
+  if (!tokenCookie) throw new Error('No access token found in cookies');
 
-  return token;
+  return tokenCookie.access_token;
 };

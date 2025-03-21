@@ -117,14 +117,14 @@ async function getDafs(req, res) {
 
   // We can now return the response to the frontend
   res.status(200);
-  res.send(usersDafList);
+  res.json(await usersDafList.json());
   res.end();
 }
 ```
 
 You can now call this route from your frontend to retrieve the list of DAFs available to the user. This example uses React, but you can use any frontend framework or vanilla JavaScript.
 
-For more details about the `https://api.endaoment.com/v1/funds/mine` API being called, check the [API  docs](https://api.dev.endaoment.org/oas#/Funds/FundsController_getMyFunds)
+For more details about the `https://api.endaoment.com/v1/funds/mine` API being called, check the [API docs](https://api.dev.endaoment.org/oas#/Funds/FundsController_getMyFunds)
 
 ```javascript
 const DafList = () => {
@@ -168,9 +168,9 @@ async function getWireInstructions(req, res) {
   // Make a request to the Endaoment API to get the wire instructions
   const wireInstructions = await fetch(
     // For domestic wire instructions
-    'https://api.endaoment.com/v1/donation-pledges/wire-pledge/details/domestic',
+    'https://api.endaoment.com/v1/donation-pledges/wire/details/domestic',
     // For international wire instructions
-    // 'https://api.endaoment.com/v1/donation-pledges/wire-pledge/details/international',
+    // 'https://api.endaoment.com/v1/donation-pledges/wire/details/international',
     {
       method: 'GET',
       headers: {
@@ -182,12 +182,13 @@ async function getWireInstructions(req, res) {
 
   // We can now return the response to the frontend
   res.status(200);
-  res.send(wireInstructions);
+  res.json(await wireInstructions.json());
   res.end();
 }
 ```
 
-You can find the API  for those endpoints here:
+You can find the API for those endpoints here:
+
 - [Domestic Wire Details API](https://api.dev.endaoment.org/oas#/Donation%20Pledges/DonationPledgesController_getDomesticPledgeDetails)
 - [International Wire Details API](https://api.dev.endaoment.org/oas#/Donation%20Pledges/DonationPledgesController_getInternationalPledgeDetails)
 
@@ -268,7 +269,7 @@ async function wireDonation(req, res) {
 
   // We can now return the response to the frontend
   res.status(200);
-  res.send(donationRequest);
+  res.json(await donationRequest.json());
   res.end();
 }
 ```

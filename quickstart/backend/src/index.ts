@@ -1,4 +1,5 @@
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import express, { Request, Response } from 'express';
 import { checkLogin } from './routes/check-login';
 import { initLogin } from './routes/init-login';
@@ -6,28 +7,39 @@ import { logout } from './routes/logout';
 import { verifyLogin } from './routes/verify-login';
 import { getDafs } from './routes/get-dafs';
 import { getWireInstructions, wireDonation } from './routes/wire-donation';
+import { getEnvOrThrow } from './utils/env';
+import { createDaf } from './routes/create-daf';
+import bodyParser from 'body-parser';
+import { grant } from './routes/grant';
 
 // Create a new express application instance
 const app = express();
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(
+  cors({
+    origin: getEnvOrThrow('FRONTEND_URL'),
+    credentials: true,
+  })
+);
+// Enable parsing request bodies
+app.use(bodyParser.json());
+// Enable cookies
+app.use(cookieParser());
 
 // Set the network port
-const port = process.env.PORT || 3001;
-
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Your backend service with Endaoment Integration!' });
-});
+const port = process.env.PORT || 5454;
 
 // Auth routes
+app.get('/', verifyLogin);
 app.get('/check-login', checkLogin);
 app.get('/init-login', initLogin);
-app.post('/verify-login', verifyLogin);
 app.post('/logout', logout);
 
 // DAF routes
 app.get('/get-dafs', getDafs);
+app.post('/create-daf', createDaf);
+app.post('/grant', grant);
 
 // Donation routes
 app.get('/wire-donation', getWireInstructions);

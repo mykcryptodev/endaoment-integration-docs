@@ -155,7 +155,7 @@ async function createDaf(req) {
       // Pass the user's token in the Authorization header
       'Authorization': `Bearer ${token}`,
     },
-    body: {
+    body: JSON.stringify({
       fundInput: {
         // The details of the new DAF will be sent here
         // Make sure to replace this with the actual details from the request
@@ -166,12 +166,12 @@ async function createDaf(req) {
         // The full list of fields can be found in the API Reference
         ...
       }
-    },
+    }),
   });
 
   // We can now return the response to the frontend, it contains the full details of the new DAF
   res.status(200);
-  res.send(fundCreationResponse);
+  res.json(await fundCreationResponse.json());
   res.end();
 }
 ```

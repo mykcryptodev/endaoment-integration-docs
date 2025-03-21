@@ -1,13 +1,14 @@
 import crypto from 'crypto';
 import { getAccessToken } from '../utils/access-token';
 import type { Request, Response } from 'express';
+import { getEndaomentUrls } from '../utils/endaoment-urls';
 
 export async function getWireInstructions(req: Request, res: Response) {
-  const wireInstructions = await fetch(
+  const wireInstructionsResponse = await fetch(
     // For domestic wire instructions
-    'https://api.endaoment.com/v1/donation-pledges/wire-pledge/details/domestic',
+    `${getEndaomentUrls().api}/v1/donation-pledges/wire/details/domestic`,
     // For international wire instructions
-    // 'https://api.endaoment.com/v1/donation-pledges/wire-pledge/details/international',
+    // `${getEndaomentUrls().api}/v1/donation-pledges/wire/details/international`,
     {
       method: 'GET',
       headers: {
@@ -17,8 +18,10 @@ export async function getWireInstructions(req: Request, res: Response) {
     }
   );
 
+  const wireInstructions = await wireInstructionsResponse.json();
+
   res.status(200);
-  res.send(wireInstructions);
+  res.json(wireInstructions);
   res.end();
 }
 
@@ -28,6 +31,7 @@ export async function wireDonation(req: Request, res: Response) {
 
   if (!amount || !receivingFundId) {
     res.status(400);
+    res.json({ error: 'Missing amount or fundId' });
     res.end();
     return;
   }
@@ -38,7 +42,7 @@ export async function wireDonation(req: Request, res: Response) {
   const pledgedAmountMicroDollars = (BigInt(amount) * 1000000n).toString();
 
   const donationRequest = await fetch(
-    'https://api.endaoment.com/v1/donation-pledges/wire-pledge',
+    `${getEndaomentUrls().api}/v1/donation-pledges/wire`,
     {
       method: 'POST',
       headers: {
@@ -54,7 +58,9 @@ export async function wireDonation(req: Request, res: Response) {
     }
   );
 
+  const donation = await donationRequest.json();
+
   res.status(200);
-  res.send(donationRequest);
+  res.json(donation);
   res.end();
 }

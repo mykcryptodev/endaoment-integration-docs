@@ -200,7 +200,7 @@ async function grant(req, res) {
 
   // We can now return the response to the frontend
   res.status(200);
-  res.send(grantRequest);
+  res.json(await grantRequest.json());
   res.end();
 }
 ```
