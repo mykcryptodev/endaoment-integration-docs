@@ -8,6 +8,11 @@ This API allows you to create and manage Donor Advised Funds as a third-party se
 This documentation is broken down into a quickstart example and flow guides.
 The quickstart example is a copy-able working implementation of the DAF as a Service API, while the flow guides provide a more in-depth look at the API, its features, and how to use them.
 
+## Before you begin
+Make sure to reach out to the Endaoment team to get your OAuth Credentials, which will allow you to log users into Endaoment from your application. 
+
+You can do so by opening a ticket [here](https://discord.com/channels/734855436276334746/890622199390699580).
+
 ## Documentation
 
 1. [Login User](docs/login-user.md)

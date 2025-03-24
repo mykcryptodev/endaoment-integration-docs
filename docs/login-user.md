@@ -16,7 +16,9 @@ Before you begin, ensure you have the following:
 - A webserver or API to handle verification requests
 - A frontend application or client to allow users to interact with
 - Basic understanding of HTTP requests
-- A `clientId` and `clientSecret` from Endaoment (stored securely on your backend)
+- A `clientId` and `clientSecret` provided to you by Endaoment (stored securely on your backend)
+  - You can request your OAuth credentials [here](https://discord.com/channels/734855436276334746/890622199390699580).
+  - On the code samples provided in this document, the credentials will be stored on the `ENDAOMENT_CLIENT_ID` and `ENDAOMENT_CLIENT_SECRET` environment variables.
 
 ## Flow Overview
 
