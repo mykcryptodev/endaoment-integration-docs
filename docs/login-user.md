@@ -159,7 +159,7 @@ async function initLogin(req, res) {
   // We must prepare the proper OpenID Connect parameters
   const urlParams = new URLSearchParams();
   urlParams.append('response_type', 'code');
-  urlParams.append('prompt', 'login');
+  urlParams.append('prompt', 'consent');
   urlParams.append(
     'scope',
     'openid offline_access accounts transactions profile'

@@ -52,7 +52,7 @@ export const initLogin = async (req: Request, res: Response) => {
 
   const urlParams = new URLSearchParams();
   urlParams.append('response_type', 'code');
-  urlParams.append('prompt', 'login');
+  urlParams.append('prompt', 'consent');
   urlParams.append(
     'scope',
     'openid offline_access accounts transactions profile'
