@@ -44,6 +44,12 @@ sequenceDiagram
     N-->>C: Return protected resource
 ```
 
+## Issuing Tokens Without OAuth Integration
+
+While your team is working on the OAuth integration, you can immediately start building and testing your API integration without waiting for an OAuth client. Use our [Access Token Issuer Tool](https://app.dev.endaoment.org/dev/token) to issue access tokens for users with your OAuth Credentials.
+
+Please note that this tool is for development only. Production credentials require enhanced security measures when stored and handled.
+
 ## Step-by-Step Instructions
 
 ### 1. Prepare the user interface
@@ -178,6 +184,14 @@ The URL that you have generated will be sent to the frontend whenever the user i
 
 ### 4. Verify the Login and Exchange for an Access Token
 
+#### Development Redirect URL 
+Since the Endaoment Authorization Server requires a fixed set of redirect URIs to be defined for a given client, make sure to host the application handling the redirect on one of the following URLs:
+- `http://localhost:5454`
+- `http://localhost:5454/dev/token`
+
+When moving the integration from your local environment to cloud environments, make sure to reach out to us with the URLs you will be using to properly configure the integration.
+
+#### Handling the redirect
 Once the user has logged in and been redirected back to your `redirectUri`, you must verify the login. This will require verifying the `state` and `code` and exchanging the `code` for an authentication token.
 
 ```js
