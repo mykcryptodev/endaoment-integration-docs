@@ -5,10 +5,17 @@ import './GrantBox.css';
 import { useMutation } from '@tanstack/react-query';
 import { getEnvOrThrow } from '../../utils/env';
 import { getEndaomentUrls } from '../../utils/endaoment-urls';
+import { queryClient } from '../../utils/queryClient';
 
 export const GRANT_BOX_ID = 'grant-box';
 
-export const GrantBox = ({ daf }: { daf: Daf }) => {
+export const GrantBox = ({
+  daf,
+  onClose,
+}: {
+  daf: Daf;
+  onClose: () => void;
+}) => {
   const {
     searchTerm,
     setSearchTerm,
@@ -50,6 +57,11 @@ export const GrantBox = ({ daf }: { daf: Daf }) => {
 
       return response.json();
     },
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ['Daf Activity'],
+      });
+    },
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -61,6 +73,9 @@ export const GrantBox = ({ daf }: { daf: Daf }) => {
 
   return (
     <div className="box" id={GRANT_BOX_ID}>
+      <button className="close-button" type="button" onClick={onClose}>
+        Close
+      </button>
       <h4>
         {'Grant from '}
         <a href={`${getEndaomentUrls().app}/funds/${daf.id}`}>{daf.name}</a>
@@ -137,6 +152,16 @@ export const GrantBox = ({ daf }: { daf: Daf }) => {
             {isPending && 'Granting...'}
             {isSuccess && 'Granted!'}
           </span>
+        )}
+        {isSuccess && (
+          <>
+            <br />
+            <a
+              href={`${getEndaomentUrls().app}/funds/${daf.id}`}
+              className="view-fund-link">
+              View on Endaoment
+            </a>
+          </>
         )}
       </form>
     </div>

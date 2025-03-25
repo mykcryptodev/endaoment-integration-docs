@@ -11,6 +11,7 @@ import { getEnvOrThrow } from './utils/env';
 import { createDaf } from './routes/create-daf';
 import bodyParser from 'body-parser';
 import { grant } from './routes/grant';
+import { getDafActivity } from './routes/daf-activity';
 
 // Create a new express application instance
 const app = express();
@@ -40,6 +41,7 @@ app.post('/logout', logout);
 app.get('/get-dafs', getDafs);
 app.post('/create-daf', createDaf);
 app.post('/grant', grant);
+app.get('/get-daf-activity', getDafActivity);
 
 // Donation routes
 app.get('/wire-donation', getWireInstructions);

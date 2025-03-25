@@ -48,3 +48,10 @@ export type WireInstructions = {
     address: string;
   };
 };
+
+export type DafActivity = {
+  usdcAmount: string;
+  occurredAtUtc: string;
+  type: string;
+  outcome?: string;
+}

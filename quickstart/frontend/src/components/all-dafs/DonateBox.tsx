@@ -3,6 +3,7 @@ import type { Daf, WireInstructions } from '../../utils/endaoment-types';
 import { getEnvOrThrow } from '../../utils/env';
 import type { FormEvent } from 'react';
 import { getEndaomentUrls } from '../../utils/endaoment-urls';
+import { queryClient } from '../../utils/queryClient';
 
 export const DONATE_BOX_ID = 'donate-box';
 
@@ -19,7 +20,13 @@ const getWireInstructionsQueryOptions = queryOptions({
   },
 });
 
-export const DonateBox = ({ daf }: { daf: Daf }) => {
+export const DonateBox = ({
+  daf,
+  onClose,
+}: {
+  daf: Daf;
+  onClose: () => void;
+}) => {
   const { data: wireInstructions } = useQuery(getWireInstructionsQueryOptions);
   const {
     mutate: donate,
@@ -47,6 +54,11 @@ export const DonateBox = ({ daf }: { daf: Daf }) => {
 
       return response.json();
     },
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ['Daf Activity'],
+      });
+    },
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -56,6 +68,9 @@ export const DonateBox = ({ daf }: { daf: Daf }) => {
 
   return (
     <div className="box" id={DONATE_BOX_ID}>
+      <button className="close-button" type="button" onClick={onClose}>
+        Close
+      </button>
       <h4>
         {'Donate to '}
         <a href={`${getEndaomentUrls().app}/funds/${daf.id}`}>{daf.name}</a>
@@ -84,6 +99,16 @@ export const DonateBox = ({ daf }: { daf: Daf }) => {
             {isPending && 'Donating...'}
             {isSuccess && 'Donated!'}
           </span>
+        )}
+        {isSuccess && (
+          <>
+            <br />
+            <a
+              href={`${getEndaomentUrls().app}/funds/${daf.id}`}
+              className="view-fund-link">
+              View on Endaoment
+            </a>
+          </>
         )}
       </form>
     </div>
