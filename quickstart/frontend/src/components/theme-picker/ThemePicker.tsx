@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
-const THEMES = [
-  "light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave",
-  "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua",
-  "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk",
-  "autumn", "business", "acid", "lemonade", "night", "coffee", "winter", "dim",
-  "nord", "sunset", "caramellatte", "abyss", "silk"
-];
+const THEMES = ["light", "dark"];
+
+const THEME_MAP = {
+  light: "pastel",
+  dark: "halloween"
+} as const;
 
 export const ThemePicker = () => {
   const [currentTheme, setCurrentTheme] = useState(() => {
@@ -15,12 +14,12 @@ export const ThemePicker = () => {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', THEME_MAP[savedTheme as keyof typeof THEME_MAP]);
     setCurrentTheme(savedTheme);
   }, []);
 
   const handleThemeChange = (theme: string) => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', THEME_MAP[theme as keyof typeof THEME_MAP]);
     setCurrentTheme(theme);
     localStorage.setItem('theme', theme);
   };
