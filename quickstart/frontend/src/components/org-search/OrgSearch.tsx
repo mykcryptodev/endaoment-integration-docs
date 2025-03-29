@@ -1,5 +1,6 @@
 import { useSearch } from '../../utils/useSearch';
 import { getEndaomentUrls } from '../../utils/endaoment-urls';
+import { useState } from 'react';
 
 export const OrgSearch = () => {
   const {
@@ -12,6 +13,19 @@ export const OrgSearch = () => {
     isFetchingNextPage,
     isLoading,
   } = useSearch();
+
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
+
+  const toggleDescription = (orgId: string) => {
+    setExpandedDescriptions(prev => ({
+      ...prev,
+      [orgId]: !prev[orgId]
+    }));
+  };
+
+  const getOrgId = (org: { ein: string | null; id: string | null }) => {
+    return org.ein ?? org.id ?? 'unknown';
+  };
 
   return (
     <div className="w-full space-y-6">
@@ -40,7 +54,7 @@ export const OrgSearch = () => {
         ) : (
           data?.pages.map((page) =>
             page.map((org) => (
-              <div key={org.ein ?? org.id} className="card bg-base-100 shadow-xl">
+              <div key={getOrgId(org)} className="card bg-base-100 shadow-xl">
                 <div className="card-body">
                   <div className="flex items-center gap-4">
                     {org.logo && (
@@ -53,14 +67,26 @@ export const OrgSearch = () => {
                     <div>
                       <h2 className="card-title">
                         <a 
-                          href={`${getEndaomentUrls().app}/orgs/${org.ein ?? org.id}`}
-                          className="link link-primary"
+                          href={`${getEndaomentUrls().app}/orgs/${getOrgId(org)}`}
+                          className="link"
                         >
                           {org.name}
                         </a>
                       </h2>
                       {org.description && (
-                        <p className="text-base-content/70">{org.description}</p>
+                        <div className="text-base-content/70">
+                          {expandedDescriptions[getOrgId(org)] 
+                            ? org.description 
+                            : org.description.slice(0, 500) + (org.description.length > 500 ? '...' : '')}
+                          {org.description.length > 500 && (
+                            <button
+                              onClick={() => toggleDescription(getOrgId(org))}
+                              className="btn btn-link btn-sm p-0 ml-2"
+                            >
+                              {expandedDescriptions[getOrgId(org)] ? 'Show Less' : 'Read More'}
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
