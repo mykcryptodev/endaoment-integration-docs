@@ -4,6 +4,7 @@ import logo from './assets/logo.svg';
 import { AllDafs } from './components/all-dafs/AllDafs';
 import { NewDaf } from './components/new-daf/NewDaf';
 import { OrgSearch } from './components/org-search/OrgSearch';
+import { ThemePicker } from './components/theme-picker/ThemePicker';
 import { getEnvOrThrow } from './utils/env';
 
 type View = 'none' | 'org-search' | 'all-dafs' | 'new-daf';
@@ -55,10 +56,11 @@ function App() {
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center gap-8">
-          <div>
+          <div className="flex items-center gap-4">
             <a href="https://endaoment.org" target="_blank" className="hover:opacity-80 transition-opacity">
               <img src={logo} className="h-16" alt="Endaoment logo" />
             </a>
+            <ThemePicker />
           </div>
           <h1 className="text-4xl font-bold text-center">Endaoment Quickstart</h1>
           
