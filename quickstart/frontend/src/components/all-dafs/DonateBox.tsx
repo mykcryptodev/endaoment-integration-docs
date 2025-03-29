@@ -67,50 +67,98 @@ export const DonateBox = ({
   };
 
   return (
-    <div className="box" id={DONATE_BOX_ID}>
-      <button className="close-button" type="button" onClick={onClose}>
-        Close
-      </button>
-      <h4>
-        {'Donate to '}
-        <a href={`${getEndaomentUrls().app}/funds/${daf.id}`}>{daf.name}</a>
-      </h4>
-      <form id="donate-form" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="amount">Amount in dollars</label>
-          <input type="number" id="amount" name="amount" />
-        </div>
-        <p>
-          {'Please make sure to wire the same amount to account #'}
-          <b>{wireInstructions?.beneficiary.accountNumber}</b>
-          {' at '}
-          <b>{wireInstructions?.receivingBank.name}</b>
-          {' with ABA routing #'}
-          <b>{wireInstructions?.receivingBank.abaRoutingNumber}</b>
-        </p>
-
-        {isIdle || isError ? (
-          <button type="submit">
-            {isIdle && 'Donate'}
-            {isError && 'Error donating, try again'}
-          </button>
-        ) : (
-          <span>
-            {isPending && 'Donating...'}
-            {isSuccess && 'Donated!'}
-          </span>
-        )}
-        {isSuccess && (
-          <>
-            <br />
-            <a
+    <div className="card bg-base-100 shadow-xl" id={DONATE_BOX_ID}>
+      <div className="card-body">
+        <div className="flex justify-between items-center">
+          <h3 className="card-title">
+            Donate to{' '}
+            <a 
               href={`${getEndaomentUrls().app}/funds/${daf.id}`}
-              className="view-fund-link">
-              View on Endaoment
+              className="link link-primary"
+            >
+              {daf.name}
             </a>
-          </>
-        )}
-      </form>
+          </h3>
+          <button 
+            className="btn btn-sm btn-circle btn-ghost" 
+            type="button" 
+            onClick={onClose}
+          >
+            ✕
+          </button>
+        </div>
+
+        <form id="donate-form" onSubmit={handleSubmit} className="space-y-6">
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Amount in dollars</span>
+            </label>
+            <input 
+              type="number" 
+              id="amount" 
+              name="amount" 
+              className="input input-bordered"
+              required
+            />
+          </div>
+
+          <div className="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+              <p>
+                Please make sure to wire the same amount to account #{' '}
+                <span className="font-bold">{wireInstructions?.beneficiary.accountNumber}</span>
+                {' at '}
+                <span className="font-bold">{wireInstructions?.receivingBank.name}</span>
+                {' with ABA routing #'}
+                <span className="font-bold">{wireInstructions?.receivingBank.abaRoutingNumber}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="card-actions justify-end">
+            {isIdle || isError ? (
+              <button 
+                type="submit" 
+                className={`btn ${isError ? 'btn-error' : 'btn-primary'}`}
+              >
+                {isIdle && 'Donate'}
+                {isError && 'Error donating, try again'}
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                {isPending && (
+                  <>
+                    <span className="loading loading-spinner loading-sm"></span>
+                    <span>Donating...</span>
+                  </>
+                )}
+                {isSuccess && (
+                  <div className="text-success flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span>Donated!</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {isSuccess && (
+            <div className="text-center">
+              <a
+                href={`${getEndaomentUrls().app}/funds/${daf.id}`}
+                className="link link-primary"
+              >
+                View on Endaoment
+              </a>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

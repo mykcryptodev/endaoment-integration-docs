@@ -1,6 +1,5 @@
 import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import './App.css';
 import logo from './assets/logo.svg';
 import { AllDafs } from './components/all-dafs/AllDafs';
 import { NewDaf } from './components/new-daf/NewDaf';
@@ -53,54 +52,69 @@ function App() {
   const [currentView, setCurrentView] = useState<View>('none');
 
   return (
-    <>
-      <div>
-        <a href="https://endaoment.org" target="_blank">
-          <img src={logo} className="logo" alt="Endaoment logo" />
-        </a>
-      </div>
-      <h1>Endaoment Quickstart</h1>
-      <div className="action-buttons">
-        <button type="button" onClick={() => setCurrentView('org-search')}>
-          Search Orgs
-        </button>
+    <div className="min-h-screen bg-base-200">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center gap-8">
+          <div>
+            <a href="https://endaoment.org" target="_blank" className="hover:opacity-80 transition-opacity">
+              <img src={logo} className="h-16" alt="Endaoment logo" />
+            </a>
+          </div>
+          <h1 className="text-4xl font-bold text-center">Endaoment Quickstart</h1>
+          
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button 
+              className="btn btn-primary" 
+              onClick={() => setCurrentView('org-search')}
+            >
+              Search Orgs
+            </button>
 
-        {isSignedIn ? (
-          <>
-            <button type="button" onClick={() => setCurrentView('all-dafs')}>
-              View My DAFs
-            </button>
-            <button type="button" onClick={() => setCurrentView('new-daf')}>
-              Open A New DAF
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setCurrentView('none');
-                signOut();
-              }}
-              data-color="red">
-              Sign Out
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              setCurrentView('none');
-              signIn();
-            }}
-            data-color="green">
-            Sign In
-          </button>
-        )}
+            {isSignedIn ? (
+              <>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => setCurrentView('all-dafs')}
+                >
+                  View My DAFs
+                </button>
+                <button 
+                  className="btn btn-accent" 
+                  onClick={() => setCurrentView('new-daf')}
+                >
+                  Open A New DAF
+                </button>
+                <button
+                  className="btn btn-error"
+                  onClick={() => {
+                    setCurrentView('none');
+                    signOut();
+                  }}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                className="btn btn-success"
+                onClick={() => {
+                  setCurrentView('none');
+                  signIn();
+                }}
+              >
+                Sign In
+              </button>
+            )}
+          </div>
+
+          <main className="w-full max-w-4xl">
+            {currentView === 'org-search' && <OrgSearch />}
+            {currentView === 'all-dafs' && <AllDafs />}
+            {currentView === 'new-daf' && <NewDaf />}
+          </main>
+        </div>
       </div>
-      <main>
-        {currentView === 'org-search' && <OrgSearch />}
-        {currentView === 'all-dafs' && <AllDafs />}
-        {currentView === 'new-daf' && <NewDaf />}
-      </main>
-    </>
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { getEnvOrThrow } from '../../utils/env';
 import type { Daf } from '../../utils/endaoment-types';
-import './AllDafs.css';
 import { useReducer, useState } from 'react';
 import { DONATE_BOX_ID, DonateBox } from './DonateBox';
 import { GRANT_BOX_ID, GrantBox } from './GrantBox';
@@ -66,7 +65,7 @@ export const AllDafs = () => {
   };
 
   return (
-    <>
+    <div className="space-y-6">
       {isShowingDonateBox && focusedDaf && (
         <DonateBox daf={focusedDaf} onClose={handleClose} />
       )}
@@ -74,30 +73,48 @@ export const AllDafs = () => {
         <GrantBox daf={focusedDaf} onClose={handleClose} />
       )}
       {allDafsResponse.data && (
-        <ul className="daf-list">
+        <div className="grid gap-6">
           {allDafsResponse.data.map((daf) => (
-            <li className="box" key={daf.id}>
-              <a href={`${getEndaomentUrls().app}/funds/${daf.id}`}>
-                {daf.name}
-              </a>
-              <p>{daf.description}</p>
-              <p>Balance: {formatUsdc(daf.usdcBalance)} USDC</p>
-              <div className="daf-buttons">
-                <button onClick={() => handleDonate(daf.id)} type="button">
-                  Donate
-                </button>
-                <button
-                  onClick={() => handleGrant(daf.id)}
-                  type="button"
-                  disabled={BigInt(daf.usdcBalance) === 0n}>
-                  Grant
-                </button>
+            <div key={daf.id} className="card bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">
+                  <a 
+                    href={`${getEndaomentUrls().app}/funds/${daf.id}`}
+                    className="link link-primary"
+                  >
+                    {daf.name}
+                  </a>
+                </h2>
+                {daf.description && (
+                  <p className="text-base-content/70">{daf.description}</p>
+                )}
+                <p className="text-lg font-semibold">
+                  Balance: {formatUsdc(daf.usdcBalance)} USDC
+                </p>
+                <div className="card-actions justify-end gap-2">
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={() => handleDonate(daf.id)} 
+                    type="button"
+                  >
+                    Donate
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleGrant(daf.id)}
+                    type="button"
+                    disabled={BigInt(daf.usdcBalance) === 0n}
+                  >
+                    Grant
+                  </button>
+                </div>
+                <div className="divider"></div>
+                <DafActivityList dafId={daf.id} />
               </div>
-              <DafActivityList dafId={daf.id} />
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
-    </>
+    </div>
   );
 };
