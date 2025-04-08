@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
-import { getAccessToken } from '../utils/access-token';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
+import { getAccessToken } from '../utils/access-token.js';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
+import crypto from 'crypto';
 
 export async function grant(req: Request, res: Response) {
   const amount = req.body['amount'];

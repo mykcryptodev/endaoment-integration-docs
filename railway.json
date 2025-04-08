@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "services": [
+    {
+      "name": "frontend",
+      "port": 3000,
+      "protocol": "http"
+    },
+    {
+      "name": "backend",
+      "port": 5454,
+      "protocol": "http"
+    }
+  ]
+} 

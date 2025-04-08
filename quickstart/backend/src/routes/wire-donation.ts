@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import { getAccessToken } from '../utils/access-token';
+import { getAccessToken } from '../utils/access-token.js';
 import type { Request, Response } from 'express';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
 
 export async function getWireInstructions(req: Request, res: Response) {
   const wireInstructionsResponse = await fetch(

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { ACCESS_TOKEN_NAME } from "../utils/access-token";
+import { ACCESS_TOKEN_NAME } from "../utils/access-token.js";
 
 export const logout = async (req: Request, res: Response) => {
   res.clearCookie(ACCESS_TOKEN_NAME);

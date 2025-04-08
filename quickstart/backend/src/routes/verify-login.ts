@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import { ACCESS_TOKEN_NAME } from '../utils/access-token';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
-import { getEnvOrThrow } from '../utils/env';
+import { ACCESS_TOKEN_NAME } from '../utils/access-token.js';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
+import { getEnvOrThrow } from '../utils/env.js';
 
 export const verifyLogin = async (req: Request, res: Response) => {
   const stateFromUrl = req.query['state'];

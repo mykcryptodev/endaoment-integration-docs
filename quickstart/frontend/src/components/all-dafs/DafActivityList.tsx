@@ -14,18 +14,12 @@ const ACTIVITY_TYPE_TO_LABEL: Record<string, string> = {
 export const DafActivityList = ({ dafId }: { dafId: string }) => {
   const dafActivityResponse = useQuery({
     queryKey: ['Daf Activity', dafId],
-    queryFn: async (): Promise<DafActivity[]> => {
+    queryFn: async () => {
       const response = await fetch(
-        `${getEnvOrThrow('SAFE_BACKEND_URL')}/get-daf-activity?fundId=${dafId}`,
+        `${getEnvOrThrow('SAFE_BACKEND_URL')}/api/get-daf-activity?fundId=${dafId}`,
         { credentials: 'include' }
       );
-      const list = await response.json();
-
-      if (!Array.isArray(list)) {
-        throw new Error('Invalid response');
-      }
-
-      return list;
+      return response.json();
     },
   });
 

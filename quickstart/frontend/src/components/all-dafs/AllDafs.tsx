@@ -12,7 +12,7 @@ const allDafsQueryOptions = queryOptions({
   queryKey: ['All DAFs'],
   queryFn: async (): Promise<Daf[]> => {
     const response = await fetch(
-      `${getEnvOrThrow('SAFE_BACKEND_URL')}/get-dafs`,
+      `${getEnvOrThrow('SAFE_BACKEND_URL')}/api/get-dafs`,
       { credentials: 'include' }
     );
     const list = await response.json();

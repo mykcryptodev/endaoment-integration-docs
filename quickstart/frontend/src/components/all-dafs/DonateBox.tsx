@@ -11,7 +11,7 @@ const getWireInstructionsQueryOptions = queryOptions({
   queryKey: ['Wire Instructions'],
   queryFn: async (): Promise<WireInstructions> => {
     const response = await fetch(
-      `${getEnvOrThrow('SAFE_BACKEND_URL')}/wire-donation`,
+      `${getEnvOrThrow('SAFE_BACKEND_URL')}/api/wire-donation`,
       {
         credentials: 'include',
       }
@@ -38,7 +38,7 @@ export const DonateBox = ({
     mutationKey: ['Donate'],
     mutationFn: async (formData: FormData) => {
       const response = await fetch(
-        `${getEnvOrThrow('SAFE_BACKEND_URL')}/wire-donation`,
+        `${getEnvOrThrow('SAFE_BACKEND_URL')}/api/wire-donation`,
         {
           method: 'POST',
           headers: {

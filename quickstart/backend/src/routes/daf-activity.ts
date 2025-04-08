@@ -1,6 +1,6 @@
+import { getAccessToken } from '../utils/access-token.js';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
 import type { Request, Response } from 'express';
-import { getAccessToken } from '../utils/access-token';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
 
 export async function getDafActivity(req: Request, res: Response) {
   const { fundId } = req.query;

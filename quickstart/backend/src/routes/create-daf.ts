@@ -1,6 +1,6 @@
+import { getAccessToken } from '../utils/access-token.js';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
 import type { Request, Response } from 'express';
-import { getAccessToken } from '../utils/access-token';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
 
 export const createDaf = async (req: Request, res: Response) => {
   const newFundName = req.body['name'];

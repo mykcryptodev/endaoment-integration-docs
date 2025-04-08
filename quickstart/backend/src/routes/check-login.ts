@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { getAccessToken } from '../utils/access-token';
+import { getAccessToken } from '../utils/access-token.js';
 
 export const checkLogin = async (req: Request, res: Response) => {
   try {

@@ -1,9 +1,17 @@
 {
+  "name": "endaoment-quickstart",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "quickstart/frontend",
+    "quickstart/backend"
+  ],
+  "scripts": {
+    "start": "node quickstart/backend/dist/index.js",
+    "build": "yarn workspace quickstart-frontend build && yarn workspace quickstart-backend build",
+    "dev": "concurrently \"yarn workspace quickstart-frontend dev\" \"yarn workspace quickstart-backend dev\""
+  },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.17",
-    "@tailwindcss/vite": "^4.0.17",
-    "autoprefixer": "^10.4.21",
-    "daisyui": "^5.0.9",
-    "tailwindcss": "^4.0.17"
+    "concurrently": "^8.2.2"
   }
 }

@@ -2,8 +2,8 @@ import crypto from 'crypto';
 import type { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import { getEndaomentUrls } from '../utils/endaoment-urls';
-import { getEnvOrThrow } from '../utils/env';
+import { getEndaomentUrls } from '../utils/endaoment-urls.js';
+import { getEnvOrThrow } from '../utils/env.js';
 
 // Ensure URL safe encoding
 function toUrlSafe(base64: string) {

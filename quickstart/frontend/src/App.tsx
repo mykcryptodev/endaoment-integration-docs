@@ -13,7 +13,7 @@ const checkSignedInQueryOptions = queryOptions({
   queryKey: ['Check Signed In'],
   queryFn: async (): Promise<boolean> => {
     const response = await fetch(
-      `${getEnvOrThrow('SAFE_BACKEND_URL')}/check-login`,
+      `${getEnvOrThrow('SAFE_BACKEND_URL')}/api/check-login`,
       { credentials: 'include' }
     );
     const data = await response.json();

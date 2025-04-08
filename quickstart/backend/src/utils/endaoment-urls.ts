@@ -1,4 +1,4 @@
-import { getEnvOrThrow } from './env';
+import { getEnvOrThrow } from './env.js';
 
 export const getEndaomentUrls = () => {
   const env = getEnvOrThrow('ENDAOMENT_ENVIRONMENT');
